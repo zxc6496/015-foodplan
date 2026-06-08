@@ -1,0 +1,60 @@
+<!-- 买菜清单页面 -->
+<view class="page">
+  <!-- 头部统计 -->
+  <view class="header-card">
+    <view class="count-row">
+      <view class="count-item">
+        <text class="count-num">{{shoppingList.length}}</text>
+        <text class="count-label">待购食材</text>
+      </view>
+      <view class="count-item">
+        <text class="count-num bought">{{boughtCount}}</text>
+        <text class="count-label">已购买</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 清单列表 -->
+  <view class="card list-card" wx:if="{{shoppingList.length > 0 || boughtList.length > 0}}">
+    <view class="section-title">
+      采购清单
+      <text class="clear-btn" bindtap="clearAll">一键清空</text>
+    </view>
+
+    <!-- 待购 -->
+    <view class="list-section" wx:if="{{shoppingList.length > 0}}">
+      <view class="sub-title">待购买</view>
+      <view
+        class="list-item"
+        wx:for="{{shoppingList}}"
+        wx:key="*this"
+      >
+        <view class="checkbox" bindtap="toggleBought" data-name="{{item}}" data-type="shopping"></view>
+        <text class="item-name">{{item}}</text>
+      </view>
+    </view>
+
+    <!-- 已购 -->
+    <view class="list-section" wx:if="{{boughtList.length > 0}}">
+      <view class="sub-title done">已购买</view>
+      <view
+        class="list-item done"
+        wx:for="{{boughtList}}"
+        wx:key="*this"
+      >
+        <view class="checkbox checked" bindtap="toggleBought" data-name="{{item}}" data-type="bought"></view>
+        <text class="item-name">{{item}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{shoppingList.length === 0 && boughtList.length === 0}}">
+    <text class="empty-icon">🛒</text>
+    <text>暂无买菜清单</text>
+    <text class="sub-text">生成菜谱后会自动生成清单</text>
+  </view>
+
+  <!-- 免责声明 -->
+  <view class="disclaimer">本工具为课程演示项目，仅提供家常菜谱搭配参考，不提供任何医疗、营养、健康指导服务</view>
+</view>

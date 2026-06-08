@@ -1,0 +1,44 @@
+<!-- 菜谱详情页 -->
+<view class="page" wx:if="{{meal}}">
+  <!-- 顶部信息 -->
+  <view class="header">
+    <view class="meal-badge">{{meal.meal}}</view>
+    <view class="dish-name">{{meal.dish.name}}</view>
+    <view class="meta">
+      <text>⏱ {{meal.dish.cookTime}}分钟</text>
+      <text>👤 {{peopleCount}}人份</text>
+      <text class="calories-text" wx:if="{{meal.dish.calories}}">~{{meal.dish.calories}} kcal/人</text>
+    </view>
+  </view>
+
+  <!-- 所需食材 -->
+  <view class="card">
+    <view class="section-title">所需食材</view>
+    <view class="ingredient-text">{{meal.dish.ingredients}}</view>
+  </view>
+
+  <!-- 详细步骤 -->
+  <view class="card">
+    <view class="section-title">详细步骤</view>
+    <view class="steps-text">{{meal.dish.steps}}</view>
+  </view>
+
+  <!-- AI 声明 -->
+  <view class="ai-disclaimer">以上内容为 AI 生成的家常做法参考</view>
+
+  <!-- 操作 -->
+  <view class="btn-area">
+    <button class="btn-primary" bindtap="toggleFavorite">
+      {{isFavorited ? '⭐ 已收藏' : '☆ 收藏菜谱'}}
+    </button>
+    <button class="btn-outline share-btn" open-type="share">分享给好友</button>
+  </view>
+
+  <!-- 免责声明 -->
+  <view class="disclaimer">本工具为课程演示项目，仅提供家常菜谱搭配参考，不提供任何医疗、营养、健康指导服务</view>
+</view>
+
+<view class="empty-state" wx:else>
+  <text class="empty-icon">🍽️</text>
+  <text>菜谱数据不存在</text>
+</view>

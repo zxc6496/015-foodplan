@@ -1,0 +1,120 @@
+/* 买菜清单页面 */
+.page {
+  min-height: 100vh;
+  padding-bottom: 40rpx;
+}
+
+.header-card {
+  background: linear-gradient(135deg, #FF8C42, #FFB380);
+  margin: 20rpx 24rpx;
+  border-radius: 16rpx;
+  padding: 40rpx;
+  color: #fff;
+}
+
+.count-row {
+  display: flex;
+  justify-content: space-around;
+}
+
+.count-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.count-num {
+  font-size: 56rpx;
+  font-weight: 700;
+}
+
+.count-num.bought {
+  opacity: 0.7;
+}
+
+.count-label {
+  font-size: 24rpx;
+  margin-top: 8rpx;
+  opacity: 0.9;
+}
+
+.list-card {
+  margin-top: 20rpx;
+}
+
+.section-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 24rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.clear-btn {
+  font-size: 24rpx;
+  color: #FF4D4F;
+  font-weight: 400;
+}
+
+.sub-title {
+  font-size: 26rpx;
+  color: #FF8C42;
+  margin-bottom: 16rpx;
+  padding-bottom: 12rpx;
+  border-bottom: 1rpx solid #FFF0E6;
+}
+
+.sub-title.done {
+  color: #52C41A;
+  border-color: #F0FFF0;
+}
+
+.list-item {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f9f9f9;
+}
+
+.list-item.done .item-name {
+  color: #ccc;
+  text-decoration: line-through;
+}
+
+.checkbox {
+  width: 44rpx;
+  height: 44rpx;
+  border: 3rpx solid #ddd;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.checkbox.checked {
+  background-color: #52C41A;
+  border-color: #52C41A;
+  position: relative;
+}
+
+.checkbox.checked::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-size: 24rpx;
+}
+
+.item-name {
+  font-size: 28rpx;
+  color: #333;
+}
+
+.sub-text {
+  font-size: 24rpx;
+  color: #ccc;
+  margin-top: 12rpx;
+}

@@ -1,0 +1,70 @@
+<!-- 食材录入页面 -->
+<view class="page">
+  <!-- 手动输入区域 -->
+  <view class="card input-section">
+    <view class="section-title">添加食材</view>
+    <view class="input-row">
+      <input
+        class="ingredient-input"
+        placeholder="输入食材名称，如：西红柿"
+        value="{{inputValue}}"
+        bindinput="onInput"
+        bindconfirm="addIngredient"
+      />
+      <button class="add-btn" bindtap="addIngredient">添加</button>
+    </view>
+    <!-- 拍照识别 -->
+    <view class="camera-section">
+      <button class="camera-btn" bindtap="takePhoto">
+        <text class="camera-icon">📷</text>
+        <text>拍照识别食材</text>
+      </button>
+      <view class="camera-tip" wx:if="{{recognizing}}">正在识别中…</view>
+    </view>
+  </view>
+
+  <!-- 快速选择 -->
+  <view class="card quick-select">
+    <view class="section-title">快速选择</view>
+    <view class="category-group" wx:for="{{quickCategories}}" wx:key="name">
+      <view class="category-name">{{item.name}}</view>
+      <view class="tag-list">
+        <view
+          class="ingredient-tag {{quickSelected.indexOf(ingredient) >= 0 ? 'selected' : ''}}"
+          wx:for="{{item.items}}"
+          wx:for-item="ingredient"
+          wx:key="*this"
+          bindtap="toggleQuickIngredient"
+          data-name="{{ingredient}}"
+        >{{ingredient}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 已添加食材 -->
+  <view class="card ingredient-list" wx:if="{{ingredients.length > 0}}">
+    <view class="section-title">
+      已添加食材 ({{ingredients.length}})
+      <text class="clear-all" bindtap="clearAll">清空</text>
+    </view>
+    <view class="tags">
+      <view
+        class="selected-tag"
+        wx:for="{{ingredients}}"
+        wx:key="*this"
+      >
+        <text>{{item}}</text>
+        <view class="delete-icon" bindtap="removeIngredient" data-index="{{index}}">×</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{ingredients.length === 0}}">
+    <text class="empty-icon">🥬</text>
+    <text>还没有添加食材，快来添加吧</text>
+  </view>
+
+  <!-- 免责声明 -->
+  <view class="disclaimer">本工具为课程演示项目，仅提供家常菜谱搭配参考，不提供任何医疗、营养、健康指导服务</view>
+</view>

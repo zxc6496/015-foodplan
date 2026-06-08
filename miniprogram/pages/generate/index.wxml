@@ -1,0 +1,111 @@
+<!-- 生成菜谱页面 -->
+<view class="page">
+  <!-- 当前食材 -->
+  <view class="card">
+    <view class="section-title">当前食材</view>
+    <view class="tags" wx:if="{{ingredients.length > 0}}">
+      <view class="tag" wx:for="{{ingredients}}" wx:key="*this">{{item}}</view>
+    </view>
+    <view class="empty-hint" wx:else>请先在「食材录入」页添加食材</view>
+  </view>
+
+  <!-- 参数设置 -->
+  <view class="card">
+    <view class="section-title">菜谱设置</view>
+
+    <!-- 用餐人数 -->
+    <view class="param-row">
+      <text class="param-label">用餐人数</text>
+      <view class="stepper">
+        <view class="step-btn {{peopleCount <= 1 ? 'disabled' : ''}}" bindtap="decreasePeople">-</view>
+        <text class="step-value">{{peopleCount}} 人</text>
+        <view class="step-btn {{peopleCount >= 6 ? 'disabled' : ''}}" bindtap="increasePeople">+</view>
+      </view>
+    </view>
+
+    <!-- 口味偏好 -->
+    <view class="param-row">
+      <text class="param-label">口味偏好</text>
+      <view class="options">
+        <view
+          class="option {{taste === item ? 'active' : ''}}"
+          wx:for="{{tasteOptions}}"
+          wx:key="*this"
+          bindtap="selectTaste"
+          data-value="{{item}}"
+        >{{item}}</view>
+      </view>
+    </view>
+
+    <!-- 忌口 -->
+    <view class="param-row taboos">
+      <text class="param-label">忌口食材</text>
+      <view class="taboo-input-row">
+        <input
+          class="taboo-input"
+          placeholder="输入忌口的食材，逗号分隔"
+          value="{{tabooInput}}"
+          bindinput="onTabooInput"
+          bindconfirm="addTaboo"
+        />
+      </view>
+      <view class="tags" wx:if="{{taboos.length > 0}}">
+        <view class="tag taboo-tag" wx:for="{{taboos}}" wx:key="*this">
+          {{item}}
+          <text class="remove" bindtap="removeTaboo" data-index="{{index}}">×</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 生成按钮 -->
+  <view class="btn-area">
+    <button class="btn-primary generate-btn" bindtap="generateRecipe" disabled="{{ingredients.length === 0 || loading}}">
+      {{loading ? '生成中…' : '生成菜谱'}}
+    </button>
+  </view>
+
+  <!-- 加载状态 -->
+  <view class="loading-area" wx:if="{{loading}}">
+    <view class="loading-dot"></view>
+    <text>AI 正在为您搭配菜式…</text>
+  </view>
+
+  <!-- 菜谱结果 -->
+  <view wx:if="{{recipe && !loading}}">
+    <view class="card meal-card" wx:for="{{recipe.meals}}" wx:key="meal">
+      <view class="meal-header">
+        <text class="meal-icon">{{item.meal === '早餐' ? '🌅' : (item.meal === '午餐' ? '☀️' : '🌙')}}</text>
+        <text class="meal-name">{{item.meal}}</text>
+        <view class="meal-meta">
+          <text class="meal-time">{{item.dish.cookTime}}分钟</text>
+          <text class="meal-calories" wx:if="{{item.dish.calories}}">~{{item.dish.calories}} kcal/人</text>
+        </view>
+      </view>
+      <view class="dish-name">{{item.dish.name}}</view>
+      <view class="dish-ingredients">
+        <text class="label">所需食材：</text>
+        <text>{{item.dish.ingredients}}</text>
+      </view>
+      <view class="dish-steps">
+        <text class="label">做法：</text>
+        <text>{{item.dish.steps}}</text>
+      </view>
+      <view class="action-row">
+        <button class="btn-outline small" bindtap="viewDetail" data-index="{{index}}">查看详情</button>
+      </view>
+    </view>
+
+    <!-- AI 免责声明 -->
+    <view class="ai-disclaimer">以上内容为 AI 生成的家常做法参考</view>
+
+    <!-- 操作按钮 -->
+    <view class="btn-area">
+      <button class="btn-primary" bindtap="regenerate" disabled="{{loading}}">重新生成</button>
+      <button class="btn-outline" style="margin-top:20rpx" bindtap="goShopping">查看买菜清单</button>
+    </view>
+  </view>
+
+  <!-- 首页免责声明 -->
+  <view class="disclaimer">本工具为课程演示项目，仅提供家常菜谱搭配参考，不提供任何医疗、营养、健康指导服务</view>
+</view>
