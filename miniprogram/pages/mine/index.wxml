@@ -53,6 +53,17 @@
     <view class="empty-hint" wx:else>暂无收藏菜谱</view>
   </view>
 
+  <!-- 我的菜谱（课程作业） -->
+  <view class="card">
+    <view class="section-header">
+      <text class="section-title">📝 我的菜谱</text>
+    </view>
+    <view class="menu-item" bindtap="goMyRecipes">
+      <text class="menu-text">添加、管理、筛选我的菜谱记录</text>
+      <image class="arrow" src="/images/arrow.svg"></image>
+    </view>
+  </view>
+
   <!-- 免责声明 -->
   <view class="disclaimer">本工具为课程演示项目，仅提供家常菜谱搭配参考，不提供任何医疗、营养、健康指导服务</view>
 </view>

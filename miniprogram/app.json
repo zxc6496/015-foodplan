@@ -4,7 +4,9 @@
     "pages/generate/index",
     "pages/mine/index",
     "pages/shopping/index",
-    "pages/recipe-detail/index"
+    "pages/recipe-detail/index",
+    "pages/my-recipes/index",
+    "pages/my-recipes/add"
   ],
   "window": {
     "backgroundColor": "#FFF8F0",

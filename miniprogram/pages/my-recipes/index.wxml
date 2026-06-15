@@ -1,0 +1,61 @@
+<!-- 我的菜谱列表页面 -->
+<view class="page">
+  <!-- 统计卡片 -->
+  <view class="stats-card">
+    <view class="stat-item">
+      <text class="stat-num">{{stats.total}}</text>
+      <text class="stat-label">总记录数</text>
+    </view>
+    <view class="stat-item">
+      <text class="stat-num">{{stats.monthCount}}</text>
+      <text class="stat-label">本月新增</text>
+    </view>
+    <view class="stat-item">
+      <text class="stat-num">{{stats.avgPeople}}</text>
+      <text class="stat-label">平均人数</text>
+    </view>
+  </view>
+
+  <!-- 搜索和筛选 -->
+  <view class="filter-bar">
+    <input
+      class="search-input"
+      placeholder="搜索菜名..."
+      value="{{searchKey}}"
+      bindinput="onSearch"
+    />
+    <view class="filter-btns">
+      <view class="filter-btn {{filterCategory === '' ? 'active' : ''}}" bindtap="filterByCategory" data-cat="">全部</view>
+      <view class="filter-btn {{filterCategory === '早餐' ? 'active' : ''}}" bindtap="filterByCategory" data-cat="早餐">早餐</view>
+      <view class="filter-btn {{filterCategory === '午餐' ? 'active' : ''}}" bindtap="filterByCategory" data-cat="午餐">午餐</view>
+      <view class="filter-btn {{filterCategory === '晚餐' ? 'active' : ''}}" bindtap="filterByCategory" data-cat="晚餐">晚餐</view>
+    </view>
+  </view>
+
+  <!-- 列表 -->
+  <view class="list-area">
+    <view class="empty-tip" wx:if="{{recipes.length === 0}}">
+      <text>暂无记录，点击下方按钮添加</text>
+    </view>
+
+    <view class="recipe-card" wx:for="{{recipes}}" wx:key="_id">
+      <view class="card-header">
+        <view class="meal-tag">{{item.meal}}</view>
+        <text class="dish-name">{{item.dishName}}</text>
+      </view>
+      <view class="card-body">
+        <text>食材：{{item.ingredients}}</text>
+        <text>人数：{{item.peopleCount}}人 | {{item.date}}</text>
+      </view>
+      <view class="card-actions">
+        <button class="btn-edit" bindtap="editRecipe" data-id="{{item._id}}">编辑</button>
+        <button class="btn-delete" bindtap="deleteRecipe" data-id="{{item._id}}">删除</button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 添加按钮 -->
+  <view class="add-btn" bindtap="goAddPage">
+    <text>+</text>
+  </view>
+</view>

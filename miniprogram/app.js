@@ -5,8 +5,12 @@ App({
     ingredients: [],
     // 当前生成的菜谱方案
     currentRecipe: null,
+    // 是否从历史记录跳转（用于恢复菜谱显示）
+    showHistoryRecipe: false,
     // 购物清单
-    shoppingList: []
+    shoppingList: [],
+    // 我的菜谱（云数据库缓存）
+    myRecipes: []
   },
 
   onLaunch: function () {
@@ -15,7 +19,7 @@ App({
       return;
     }
     wx.cloud.init({
-      env: '', // 请替换为自己的云开发环境 ID
+      env: 'cloud1-d3gq9jjh79e6c8ff', // 云开发环境 ID
       traceUser: true
     });
   }

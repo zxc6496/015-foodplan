@@ -1,14 +1,5 @@
 <!-- 生成菜谱页面 -->
 <view class="page">
-  <!-- 当前食材 -->
-  <view class="card">
-    <view class="section-title">当前食材</view>
-    <view class="tags" wx:if="{{ingredients.length > 0}}">
-      <view class="tag" wx:for="{{ingredients}}" wx:key="*this">{{item}}</view>
-    </view>
-    <view class="empty-hint" wx:else>请先在「食材录入」页添加食材</view>
-  </view>
-
   <!-- 参数设置 -->
   <view class="card">
     <view class="section-title">菜谱设置</view>
@@ -34,6 +25,15 @@
           bindtap="selectTaste"
           data-value="{{item}}"
         >{{item}}</view>
+      </view>
+    </view>
+
+    <!-- 健身餐模式 -->
+    <view class="param-row">
+      <text class="param-label">餐食模式</text>
+      <view class="options">
+        <view class="option {{!isFitness ? 'active' : ''}}" bindtap="toggleFitness" data-val="false">家常菜谱</view>
+        <view class="option {{isFitness ? 'active' : ''}}" bindtap="toggleFitness" data-val="true">健身餐</view>
       </view>
     </view>
 
@@ -104,6 +104,15 @@
       <button class="btn-primary" bindtap="regenerate" disabled="{{loading}}">重新生成</button>
       <button class="btn-outline" style="margin-top:20rpx" bindtap="goShopping">查看买菜清单</button>
     </view>
+  </view>
+
+  <!-- 当前食材（移到底部） -->
+  <view class="card">
+    <view class="section-title">当前食材</view>
+    <view class="tags" wx:if="{{ingredients.length > 0}}">
+      <view class="tag" wx:for="{{ingredients}}" wx:key="*this">{{item}}</view>
+    </view>
+    <view class="empty-hint" wx:else>请先在「食材录入」页添加食材</view>
   </view>
 
   <!-- 首页免责声明 -->

@@ -64,15 +64,49 @@ Page({
         });
         this.setData({ isFavorited: false });
         wx.showToast({ title: '已取消收藏', icon: 'none' });
+
+        // 云数据库取消收藏
+        wx.cloud.callFunction({
+          name: 'quickstartFunctions',
+          data: {
+            type: 'removeFavorite',
+            dishName: meal.dish.name
+          },
+          success: function (res) {
+            console.log('云数据库取消收藏成功', res);
+          },
+          fail: function (err) {
+            console.error('云数据库取消收藏失败', err);
+          }
+        });
       } else {
         // 添加收藏
-        favorites.unshift({
+        var favItem = {
           meal: meal.meal,
           dish: meal.dish,
           peopleCount: this.data.peopleCount
-        });
+        };
+        favorites.unshift(favItem);
         this.setData({ isFavorited: true });
         wx.showToast({ title: '已收藏', icon: 'success' });
+
+        // 云数据库添加收藏
+        wx.cloud.callFunction({
+          name: 'quickstartFunctions',
+          data: {
+            type: 'addFavorite',
+            time: new Date().toLocaleString(),
+            meal: meal.meal,
+            dish: meal.dish,
+            peopleCount: this.data.peopleCount
+          },
+          success: function (res) {
+            console.log('云数据库添加收藏成功', res);
+          },
+          fail: function (err) {
+            console.error('云数据库添加收藏失败', err);
+          }
+        });
       }
       wx.setStorageSync('recipe_favorites', favorites);
     } catch (e) {

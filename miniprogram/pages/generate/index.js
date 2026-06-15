@@ -107,6 +107,45 @@ var recipeTemplates = {
   ]
 };
 
+// 中式早餐池（清淡、符合中国人早餐习惯）
+var breakfastPool = [
+  { name: '小米粥配鸡蛋', ingredients: '小米,鸡蛋,盐', steps: '1. 小米淘洗干净\n2. 加水大火烧开转小火熬20分钟\n3. 另起锅煮鸡蛋\n4. 粥煮好后配白煮蛋食用', cookTime: 25, calories: 200 },
+  { name: '豆浆配油条', ingredients: '黄豆,油条', steps: '1. 黄豆提前浸泡6小时\n2. 豆浆机打成豆浆煮熟\n3. 配现成油条食用', cookTime: 15, calories: 280 },
+  { name: '白粥配咸菜', ingredients: '大米,咸菜,盐', steps: '1. 大米淘洗干净\n2. 加水大火烧开转小火熬30分钟\n3. 配小碟咸菜食用', cookTime: 35, calories: 150 },
+  { name: '牛奶配面包', ingredients: '牛奶,面包', steps: '1. 牛奶加热至温热\n2. 配面包片食用', cookTime: 5, calories: 250 },
+  { name: '面条配煎蛋', ingredients: '面条,鸡蛋,葱,盐,油,生抽', steps: '1. 锅中烧水煮面条\n2. 另起锅煎鸡蛋至两面金黄\n3. 面条捞出加生抽盐和葱花\n4. 放上煎蛋即可', cookTime: 10, calories: 300 },
+  { name: '包子配豆浆', ingredients: '包子,黄豆', steps: '1. 包子蒸热\n2. 黄豆打成豆浆煮熟\n3. 配食', cookTime: 15, calories: 280 },
+  { name: '白粥配煎蛋', ingredients: '大米,鸡蛋,盐,油,酱油', steps: '1. 大米淘洗干净加水熬粥\n2. 热锅放油煎鸡蛋至两面金黄\n3. 粥煮好后配煎蛋和酱油食用', cookTime: 30, calories: 260 },
+  { name: '馄饨', ingredients: '馄饨皮,猪肉末,虾皮,葱,盐,生抽,香油', steps: '1. 猪肉末加盐生抽香油拌匀\n2. 取馄饨皮包入馅料\n3. 水开后下馄饨煮至浮起\n4. 碗中放虾皮葱花，舀入馄饨和汤', cookTime: 15, calories: 250 },
+  { name: '花卷配粥', ingredients: '面粉,大米,盐,油,葱', steps: '1. 大米淘洗熬粥\n2. 面粉加水和成面团\n3. 平刷油撒葱花卷起切段\n4. 蒸15分钟至熟\n5. 配粥食用', cookTime: 30, calories: 280 },
+  { name: '汤圆', ingredients: '糯米粉,黑芝麻,糖,水', steps: '1. 糯米粉加温水揉成面团\n2. 包入黑芝麻糖馅搓圆\n3. 水开后下汤圆煮至浮起\n4. 连汤食用', cookTime: 15, calories: 220 }
+];
+
+// 健身餐池（高蛋白、低脂、优质碳水，适合健身人群）
+var fitnessBreakfastPool = [
+  { name: '燕麦酸奶碗配水煮蛋', ingredients: '燕麦片,无糖酸奶,水煮蛋,小番茄,坚果', steps: '1. 燕麦用温水泡软\n2. 加入无糖酸奶拌匀\n3. 搭配水煮蛋和洗净的小番茄\n4. 撒少许坚果即可', cookTime: 5, calories: 320 },
+  { name: '全麦三明治配牛奶', ingredients: '全麦面包,鸡蛋,生菜,番茄,低脂牛奶', steps: '1. 鸡蛋煮熟切片\n2. 生菜、番茄洗净\n3. 将鸡蛋、生菜、番茄夹在全麦面包中\n4. 配一杯低脂牛奶', cookTime: 10, calories: 350 },
+  { name: '杂粮粥配鸡蛋', ingredients: '黑米,红豆,薏米,鸡蛋,红枣', steps: '1. 黑米红豆薏米提前浸泡\n2. 加水煮至软烂\n3. 另起锅煮鸡蛋\n4. 粥中加入红枣，配鸡蛋食用', cookTime: 30, calories: 280 },
+  { name: '豆浆配全麦面包', ingredients: '黄豆,全麦面包,水煮蛋', steps: '1. 黄豆提前浸泡6小时\n2. 豆浆机打成豆浆煮熟\n3. 配全麦面包和水煮蛋', cookTime: 15, calories: 300 },
+  { name: '鸡蛋饼配牛奶', ingredients: '鸡蛋,全麦面粉,葱花,盐,低脂牛奶', steps: '1. 全麦面粉加水调成糊\n2. 打入鸡蛋加葱花盐拌匀\n3. 平底锅刷少许油摊成饼\n4. 配一杯低脂牛奶', cookTime: 10, calories: 310 }
+];
+
+var fitnessLunchPool = [
+  { name: '杂粮饭配香煎鸡胸肉配西兰花', ingredients: '糙米,黑米,鸡胸肉,西兰花,橄榄油,黑胡椒,海盐', steps: '1. 糙米黑米混合煮成杂粮饭\n2. 鸡胸肉用黑胡椒海盐腌制10分钟\n3. 平底锅少许橄榄油煎鸡胸肉至熟\n4. 西兰花焯水后简单翻炒调味', cookTime: 20, calories: 420 },
+  { name: '糙米饭配清蒸鱼配蒜蓉菠菜', ingredients: '糙米,鱼,菠菜,姜,葱,蒜,蒸鱼油,盐', steps: '1. 糙米煮成饭\n2. 鱼处理干净铺姜片蒸8分钟\n3. 淋蒸鱼油和热油\n4. 菠菜蒜蓉快炒加盐', cookTime: 25, calories: 380 },
+  { name: '荞麦面配虾仁炒芦笋', ingredients: '荞麦面,虾仁,芦笋,蒜,盐,橄榄油', steps: '1. 荞麦面煮熟捞出\n2. 虾仁去虾线\n3. 热锅少许橄榄油炒虾仁至变红\n4. 加入芦笋段翻炒加盐\n5. 浇在荞麦面上', cookTime: 15, calories: 390 },
+  { name: '红薯配瘦牛肉炒青椒', ingredients: '红薯,瘦牛肉,青椒,姜,蒜,生抽,盐', steps: '1. 红薯蒸熟\n2. 牛肉切丝加生抽腌制\n3. 热锅少油炒牛肉至变色\n4. 加入青椒姜蒜翻炒加盐\n5. 配红薯食用', cookTime: 20, calories: 400 },
+  { name: '玉米配豆腐炖鱼', ingredients: '玉米,豆腐,鱼,姜,蒜,料酒,盐', steps: '1. 玉米煮熟\n2. 鱼煎至两面金黄\n3. 加姜蒜料酒和清水\n4. 放入豆腐炖10分钟加盐\n5. 配玉米食用', cookTime: 25, calories: 370 }
+];
+
+var fitnessDinnerPool = [
+  { name: '蒸山药配巴沙鱼配白灼娃娃菜', ingredients: '山药,巴沙鱼,娃娃菜,生抽,黑胡椒', steps: '1. 山药去皮切段蒸熟\n2. 巴沙鱼蒸熟撒黑胡椒生抽\n3. 娃娃菜焯水断生即可', cookTime: 15, calories: 280 },
+  { name: '紫薯配番茄鸡蛋汤配凉拌黄瓜', ingredients: '紫薯,番茄,鸡蛋,黄瓜,蒜,醋,盐,香油', steps: '1. 紫薯蒸熟\n2. 番茄切块加水煮开淋蛋花加盐\n3. 黄瓜拍碎加蒜醋盐香油拌匀', cookTime: 15, calories: 260 },
+  { name: '燕麦粥配清炒虾仁配冬瓜汤', ingredients: '燕麦片,虾仁,冬瓜,姜,盐,油', steps: '1. 燕麦片加水煮成粥\n2. 虾仁少油快炒加盐\n3. 冬瓜加姜片煮汤加盐', cookTime: 15, calories: 270 },
+  { name: '杂粮饭配鸡蛋白配炒豆角', ingredients: '糙米,鸡蛋,豆角,蒜,盐,油', steps: '1. 糙米煮成饭\n2. 鸡蛋煮熟取蛋白切块\n3. 豆角少油煸炒至熟加蒜盐', cookTime: 20, calories: 310 },
+  { name: '红薯配清蒸鳕鱼配凉拌木耳', ingredients: '红薯,鳕鱼,木耳,姜,葱,蒸鱼豉油,蒜,醋', steps: '1. 红薯蒸熟\n2. 鳕鱼铺姜片蒸8分钟淋豉油\n3. 木耳焯水加蒜醋拌匀', cookTime: 15, calories: 290 }
+];
+
 // 默认菜式
 function getDefaultDish(mealType) {
   if (mealType === '早餐') {
@@ -156,8 +195,18 @@ function combineDishes(dishes) {
   };
 }
 
-// 获取菜式（考虑忌口）
-function getMealDish(ingredients, index, taboos, mealType) {
+// 获取菜式（考虑忌口和健身模式）
+function getMealDish(ingredients, index, taboos, mealType, isFitness) {
+  // 健身餐模式：从健身餐池随机选
+  if (isFitness) {
+    if (mealType === '早餐') return fitnessBreakfastPool[Math.floor(Math.random() * fitnessBreakfastPool.length)];
+    if (mealType === '午餐') return fitnessLunchPool[Math.floor(Math.random() * fitnessLunchPool.length)];
+    if (mealType === '晚餐') return fitnessDinnerPool[Math.floor(Math.random() * fitnessDinnerPool.length)];
+  }
+  // 家常模式：早餐固定从中式早餐池选
+  if (mealType === '早餐') {
+    return breakfastPool[Math.floor(Math.random() * breakfastPool.length)];
+  }
   var ingredient = ingredients[index % ingredients.length];
   if (!ingredient) return getDefaultDish(mealType);
   var dish = getDishForIngredient(ingredient);
@@ -172,7 +221,7 @@ function getMealDish(ingredients, index, taboos, mealType) {
 }
 
 // 模板生成三餐菜谱
-function generateLocalRecipe(ingredients, peopleCount, taste, taboos) {
+function generateLocalRecipe(ingredients, peopleCount, taste, taboos, isFitness) {
   var shuffled = ingredients.slice();
   for (var i = shuffled.length - 1; i > 0; i--) {
     var j = Math.floor(Math.random() * (i + 1));
@@ -184,13 +233,13 @@ function generateLocalRecipe(ingredients, peopleCount, taste, taboos) {
   var selected = [];
 
   // 早餐
-  var breakfast = getMealDish(shuffled, 0, taboos, '早餐');
+  var breakfast = getMealDish(shuffled, 0, taboos, '早餐', isFitness);
   selected.push({ meal: '早餐', dish: breakfast });
 
   // 午餐
   var lunchDishes = [];
   for (var k = 0; k < Math.min(shuffled.length, 3); k++) {
-    var d = getMealDish(shuffled, k, taboos, '午餐');
+    var d = getMealDish(shuffled, k, taboos, '午餐', isFitness);
     if (d && !lunchDishes.some(function (x) { return x.name === d.name; })) {
       lunchDishes.push(d);
     }
@@ -203,7 +252,7 @@ function generateLocalRecipe(ingredients, peopleCount, taste, taboos) {
   var dinnerDishes = [];
   var offset = Math.min(shuffled.length, 2);
   for (var m = 0; m < Math.min(shuffled.length, 3); m++) {
-    var dd = getMealDish(shuffled, (offset + m) % shuffled.length, taboos, '晚餐');
+    var dd = getMealDish(shuffled, (offset + m) % shuffled.length, taboos, '晚餐', isFitness);
     if (dd && !dinnerDishes.some(function (x) { return x.name === dd.name; })) {
       dinnerDishes.push(dd);
     }
@@ -227,6 +276,7 @@ Page({
     peopleCount: 2,
     taste: '家常',
     tasteOptions: ['清淡', '麻辣', '家常'],
+    isFitness: false,
     taboos: [],
     tabooInput: '',
     loading: false,
@@ -235,6 +285,15 @@ Page({
 
   onShow: function () {
     this.setData({ ingredients: app.globalData.ingredients || [] });
+    // 从历史记录跳转过来时，恢复菜谱显示
+    if (app.globalData.showHistoryRecipe && app.globalData.currentRecipe) {
+      this.setData({ recipe: app.globalData.currentRecipe });
+      app.globalData.showHistoryRecipe = false;
+    }
+  },
+
+  toggleFitness: function (e) {
+    this.setData({ isFitness: e.currentTarget.dataset.val === 'true' });
   },
 
   increasePeople: function () {
@@ -290,7 +349,7 @@ Page({
     this.setData({ loading: true, recipe: null });
 
     // 优先使用本地模板生成（100%可用）
-    var recipe = generateLocalRecipe(ingredients, this.data.peopleCount, this.data.taste, this.data.taboos);
+    var recipe = generateLocalRecipe(ingredients, this.data.peopleCount, this.data.taste, this.data.taboos, this.data.isFitness);
 
     // 尝试调用云函数AI增强（不阻塞显示）
     try {
@@ -356,6 +415,7 @@ Page({
   },
 
   saveHistory: function (recipe) {
+    // 本地存储
     try {
       var history = wx.getStorageSync('recipe_history') || [];
       history.unshift({
@@ -367,7 +427,26 @@ Page({
       }
       wx.setStorageSync('recipe_history', history);
     } catch (e) {
-      console.error('保存历史失败', e);
+      console.error('本地保存历史失败', e);
     }
+
+    // 云数据库存储
+    wx.cloud.callFunction({
+      name: 'quickstartFunctions',
+      data: {
+        type: 'saveHistory',
+        time: new Date().toLocaleString(),
+        ingredients: recipe.ingredients,
+        taste: recipe.taste,
+        peopleCount: recipe.peopleCount,
+        meals: recipe.meals
+      },
+      success: function (res) {
+        console.log('云数据库保存历史成功', res);
+      },
+      fail: function (err) {
+        console.error('云数据库保存历史失败', err);
+      }
+    });
   }
 });

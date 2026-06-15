@@ -22,38 +22,185 @@ const getMiniProgramCode = async () => {
   return upload.fileID;
 };
 
-// 数据库操作（保持兼容）
-const createCollection = async () => {
+// ========== 菜谱数据库操作 ==========
+
+// 保存历史记录到云数据库
+const saveHistory = async (event) => {
+  const wxContext = cloud.getWXContext();
   try {
-    await db.createCollection('sales');
-    await db.collection('sales').add({ data: { region: '华东', city: '上海', sales: 11 } });
+    await db.collection('recipe_history').add({
+      data: {
+        openid: wxContext.OPENID,
+        time: event.time,
+        ingredients: event.ingredients,
+        taste: event.taste,
+        peopleCount: event.peopleCount,
+        meals: event.meals
+      }
+    });
     return { success: true };
   } catch (e) {
-    return { success: true, data: 'collection exists' };
+    console.error('保存历史失败', e);
+    return { success: false, errMsg: e.message };
   }
 };
 
-const selectRecord = async () => { return await db.collection('sales').get(); };
-const updateRecord = async (event) => {
+// 获取历史记录
+const getHistory = async () => {
+  const wxContext = cloud.getWXContext();
   try {
-    for (let i = 0; i < event.data.length; i++) {
-      await db.collection('sales').where({ _id: event.data[i]._id }).update({ data: { sales: event.data[i].sales } });
-    }
-    return { success: true, data: event.data };
-  } catch (e) { return { success: false, errMsg: e }; }
+    var res = await db.collection('recipe_history')
+      .where({ openid: wxContext.OPENID })
+      .orderBy('time', 'desc')
+      .limit(20)
+      .get();
+    return { success: true, data: res.data };
+  } catch (e) {
+    console.error('获取历史失败', e);
+    return { success: false, errMsg: e.message };
+  }
 };
-const insertRecord = async (event) => {
+
+// 清空历史记录
+const clearHistory = async () => {
+  const wxContext = cloud.getWXContext();
   try {
-    const d = event.data;
-    await db.collection('sales').add({ data: { region: d.region, city: d.city, sales: Number(d.sales) } });
-    return { success: true, data: event.data };
-  } catch (e) { return { success: false, errMsg: e }; }
-};
-const deleteRecord = async (event) => {
-  try {
-    await db.collection('sales').where({ _id: event.data._id }).remove();
+    await db.collection('recipe_history').where({ openid: wxContext.OPENID }).remove();
     return { success: true };
-  } catch (e) { return { success: false, errMsg: e }; }
+  } catch (e) {
+    console.error('清空历史失败', e);
+    return { success: false, errMsg: e.message };
+  }
+};
+
+// 添加收藏
+const addFavorite = async (event) => {
+  const wxContext = cloud.getWXContext();
+  try {
+    await db.collection('recipe_favorites').add({
+      data: {
+        openid: wxContext.OPENID,
+        time: event.time,
+        meal: event.meal,
+        dish: event.dish,
+        peopleCount: event.peopleCount
+      }
+    });
+    return { success: true };
+  } catch (e) {
+    console.error('添加收藏失败', e);
+    return { success: false, errMsg: e.message };
+  }
+};
+
+// 取消收藏（按菜名）
+const removeFavorite = async (event) => {
+  const wxContext = cloud.getWXContext();
+  try {
+    await db.collection('recipe_favorites')
+      .where({ openid: wxContext.OPENID, 'dish.name': event.dishName })
+      .remove();
+    return { success: true };
+  } catch (e) {
+    console.error('取消收藏失败', e);
+    return { success: false, errMsg: e.message };
+  }
+};
+
+// 获取收藏列表
+const getFavorites = async () => {
+  const wxContext = cloud.getWXContext();
+  try {
+    var res = await db.collection('recipe_favorites')
+      .where({ openid: wxContext.OPENID })
+      .orderBy('time', 'desc')
+      .get();
+    return { success: true, data: res.data };
+  } catch (e) {
+    console.error('获取收藏失败', e);
+    return { success: false, errMsg: e.message };
+  }
+};
+
+// 清空收藏
+const clearFavorites = async () => {
+  const wxContext = cloud.getWXContext();
+  try {
+    await db.collection('recipe_favorites').where({ openid: wxContext.OPENID }).remove();
+    return { success: true };
+  } catch (e) {
+    console.error('清空收藏失败', e);
+    return { success: false, errMsg: e.message };
+  }
+};
+
+// ========== 我的菜谱 CRUD ==========
+
+// 获取我的菜谱列表
+const getMyRecipes = async () => {
+  const wxContext = cloud.getWXContext();
+  try {
+    var res = await db.collection('myRecipes')
+      .where({ openid: wxContext.OPENID })
+      .orderBy('createTime', 'desc')
+      .get();
+    return { success: true, data: res.data };
+  } catch (e) {
+    console.error('获取我的菜谱失败', e);
+    return { success: false, errMsg: e.message };
+  }
+};
+
+// 添加我的菜谱
+const addMyRecipe = async (event) => {
+  const wxContext = cloud.getWXContext();
+  try {
+    await db.collection('myRecipes').add({
+      data: {
+        openid: wxContext.OPENID,
+        meal: event.data.meal,
+        dishName: event.data.dishName,
+        ingredients: event.data.ingredients,
+        peopleCount: event.data.peopleCount,
+        date: event.data.date,
+        createTime: db.serverDate()
+      }
+    });
+    return { success: true };
+  } catch (e) {
+    console.error('添加我的菜谱失败', e);
+    return { success: false, errMsg: e.message };
+  }
+};
+
+// 更新我的菜谱
+const updateMyRecipe = async (event) => {
+  try {
+    await db.collection('myRecipes').doc(event._id).update({
+      data: {
+        meal: event.data.meal,
+        dishName: event.data.dishName,
+        ingredients: event.data.ingredients,
+        peopleCount: event.data.peopleCount,
+        date: event.data.date
+      }
+    });
+    return { success: true };
+  } catch (e) {
+    console.error('更新我的菜谱失败', e);
+    return { success: false, errMsg: e.message };
+  }
+};
+
+// 删除我的菜谱
+const deleteMyRecipe = async (event) => {
+  try {
+    await db.collection('myRecipes').doc(event._id).remove();
+    return { success: true };
+  } catch (e) {
+    console.error('删除我的菜谱失败', e);
+    return { success: false, errMsg: e.message };
+  }
 };
 
 // ========== 菜谱相关功能 ==========
@@ -351,16 +498,28 @@ exports.main = async (event, context) => {
       return await getOpenId();
     case 'getMiniProgramCode':
       return await getMiniProgramCode();
-    case 'createCollection':
-      return await createCollection();
-    case 'selectRecord':
-      return await selectRecord();
-    case 'updateRecord':
-      return await updateRecord(event);
-    case 'insertRecord':
-      return await insertRecord(event);
-    case 'deleteRecord':
-      return await deleteRecord(event);
+    case 'saveHistory':
+      return await saveHistory(event);
+    case 'getHistory':
+      return await getHistory();
+    case 'clearHistory':
+      return await clearHistory();
+    case 'addFavorite':
+      return await addFavorite(event);
+    case 'removeFavorite':
+      return await removeFavorite(event);
+    case 'getFavorites':
+      return await getFavorites();
+    case 'clearFavorites':
+      return await clearFavorites();
+    case 'getMyRecipes':
+      return await getMyRecipes();
+    case 'addMyRecipe':
+      return await addMyRecipe(event);
+    case 'updateMyRecipe':
+      return await updateMyRecipe(event);
+    case 'deleteMyRecipe':
+      return await deleteMyRecipe(event);
     case 'generateRecipe':
       return await generateRecipe(event);
     case 'recognizeIngredient':
