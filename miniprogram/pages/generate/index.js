@@ -448,5 +448,13 @@ Page({
         console.error('云数据库保存历史失败', err);
       }
     });
+  },
+
+  // 分享给微信好友
+  onShareAppMessage: function () {
+    return {
+      title: 'AI 三餐菜谱规划工具 - 智能搭配家常菜式',
+      path: '/pages/home/index'
+    };
   }
 });

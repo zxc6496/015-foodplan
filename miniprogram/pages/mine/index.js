@@ -1,24 +1,87 @@
-// 我的页面 - 历史记录、收藏
+// 我的页面 - 用户信息、历史记录、收藏、设置入口
 var app = getApp();
 
 Page({
   data: {
+    userInfo: null,
+    openIdShort: '',
+    theme: 'light',
     history: [],
-    favorites: []
+    favorites: [],
+    historyLoading: true,
+    favLoading: true
   },
 
   onShow: function () {
+    this.loadUserInfo();
     this.loadData();
+  },
+
+  // 加载用户信息
+  loadUserInfo: function () {
+    var userInfo = app.globalData.userInfo;
+    var openId = app.globalData.openId || '';
+    this.setData({
+      userInfo: userInfo,
+      openIdShort: openId ? openId.substring(0, 8) + '...' : '',
+      theme: app.globalData.theme || 'light'
+    });
+  },
+
+  // 获取用户头像昵称（点击登录触发）
+  getUserProfile: function () {
+    var that = this;
+    wx.getUserProfile({
+      desc: '用于显示个人主页',
+      success: function (res) {
+        app.saveUserInfo(res.userInfo);
+        that.setData({ userInfo: res.userInfo });
+        wx.showToast({ title: '登录成功', icon: 'success' });
+      },
+      fail: function (err) {
+        if (err.errMsg.indexOf('cancel') === -1) {
+          wx.showToast({ title: '获取用户信息失败', icon: 'none' });
+        }
+      }
+    });
+  },
+
+  // 退出登录
+  logout: function () {
+    var that = this;
+    wx.showModal({
+      title: '提示',
+      content: '确定退出登录吗？',
+      success: function (res) {
+        if (res.confirm) {
+          app.globalData.userInfo = null;
+          try {
+            wx.removeStorageSync('user_info');
+          } catch (e) {
+            console.error('清除用户缓存失败', e);
+          }
+          that.setData({ userInfo: null });
+          wx.showToast({ title: '已退出登录', icon: 'success' });
+        }
+      }
+    });
+  },
+
+  // 跳转到设置页
+  goSettings: function () {
+    wx.navigateTo({ url: '/pages/settings/index' });
   },
 
   loadData: function () {
     var that = this;
+    this.setData({ historyLoading: true, favLoading: true });
 
     // 从云数据库加载历史记录
     wx.cloud.callFunction({
       name: 'quickstartFunctions',
       data: { type: 'getHistory' },
       success: function (res) {
+        that.setData({ historyLoading: false });
         if (res.result && res.result.success && res.result.data) {
           var history = res.result.data;
           history.forEach(function (h) {
@@ -38,8 +101,8 @@ Page({
         }
       },
       fail: function (err) {
+        that.setData({ historyLoading: false });
         console.error('从云数据库获取历史失败', err);
-        // 降级：从本地存储读取
         that.loadLocalData();
       }
     });
@@ -49,13 +112,14 @@ Page({
       name: 'quickstartFunctions',
       data: { type: 'getFavorites' },
       success: function (res) {
+        that.setData({ favLoading: false });
         if (res.result && res.result.success && res.result.data) {
           that.setData({ favorites: res.result.data });
         }
       },
       fail: function (err) {
+        that.setData({ favLoading: false });
         console.error('从云数据库获取收藏失败', err);
-        // 降级：从本地存储读取
         that.loadLocalData();
       }
     });
@@ -97,7 +161,6 @@ Page({
     var idx = e.currentTarget.dataset.index;
     var favorites = this.data.favorites;
     if (favorites[idx]) {
-      // 传递收藏数据到菜谱详情页
       app.globalData.viewFavRecipe = favorites[idx];
       wx.navigateTo({ url: '/pages/recipe-detail/index?mode=fav&index=' + idx });
     }
@@ -119,11 +182,12 @@ Page({
           wx.cloud.callFunction({
             name: 'quickstartFunctions',
             data: { type: 'clearHistory' },
-            success: function (res) {
-              console.log('云数据库清空历史成功', res);
+            success: function () {
+              wx.showToast({ title: '已清空', icon: 'success' });
             },
             fail: function (err) {
               console.error('云数据库清空历史失败', err);
+              wx.showToast({ title: '本地已清空', icon: 'success' });
             }
           });
           that.setData({ history: [] });
@@ -148,11 +212,12 @@ Page({
           wx.cloud.callFunction({
             name: 'quickstartFunctions',
             data: { type: 'clearFavorites' },
-            success: function (res) {
-              console.log('云数据库清空收藏成功', res);
+            success: function () {
+              wx.showToast({ title: '已清空', icon: 'success' });
             },
             fail: function (err) {
               console.error('云数据库清空收藏失败', err);
+              wx.showToast({ title: '本地已清空', icon: 'success' });
             }
           });
           that.setData({ favorites: [] });
@@ -164,5 +229,13 @@ Page({
   // 跳转到我的菜谱页面
   goMyRecipes: function () {
     wx.navigateTo({ url: '/pages/my-recipes/index' });
+  },
+
+  // 分享给微信好友
+  onShareAppMessage: function () {
+    return {
+      title: 'AI 三餐菜谱规划工具',
+      path: '/pages/home/index'
+    };
   }
 });

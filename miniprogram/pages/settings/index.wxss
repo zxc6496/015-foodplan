@@ -1,0 +1,107 @@
+/* 设置页面 */
+.page {
+  min-height: 100vh;
+  padding: 20rpx;
+  padding-bottom: 40rpx;
+  background-color: #FFF8F0;
+}
+
+.page.dark-theme {
+  background-color: #1a1a2e;
+}
+
+.card {
+  background-color: #fff;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  margin-bottom: 20rpx;
+}
+
+.page.dark-theme .card {
+  background-color: #16213e;
+}
+
+.section-title {
+  font-size: 26rpx;
+  color: #999;
+  margin-bottom: 16rpx;
+}
+
+.page.dark-theme .section-title {
+  color: #888;
+}
+
+.setting-item {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f5f5f5;
+}
+
+.page.dark-theme .setting-item {
+  border-bottom-color: #2a2a4a;
+}
+
+.setting-item:last-child {
+  border-bottom: none;
+}
+
+.setting-label {
+  flex: 1;
+  font-size: 30rpx;
+  color: #333;
+}
+
+.page.dark-theme .setting-label {
+  color: #ddd;
+}
+
+.setting-value {
+  font-size: 26rpx;
+  color: #999;
+  margin-right: 12rpx;
+}
+
+.setting-value.danger {
+  color: #FF4D4F;
+}
+
+.setting-switch {
+  transform: scale(0.85);
+}
+
+.arrow {
+  width: 24rpx;
+  height: 24rpx;
+  transform: rotate(90deg);
+}
+
+/* 关于 */
+.about-item {
+  display: flex;
+  align-items: center;
+  padding: 16rpx 0;
+}
+
+.about-label {
+  font-size: 28rpx;
+  color: #999;
+  width: 120rpx;
+}
+
+.about-value {
+  font-size: 28rpx;
+  color: #333;
+}
+
+.page.dark-theme .about-value {
+  color: #ddd;
+}
+
+.disclaimer {
+  text-align: center;
+  font-size: 22rpx;
+  color: #ccc;
+  padding: 30rpx 20rpx;
+  line-height: 1.6;
+}

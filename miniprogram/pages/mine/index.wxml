@@ -1,10 +1,31 @@
 <!-- 我的页面 -->
-<view class="page">
-  <!-- 头部 -->
+<view class="page {{theme === 'dark' ? 'dark-theme' : ''}}">
+  <!-- 头部：用户信息 -->
   <view class="header">
-    <view class="avatar">🍳</view>
-    <view class="title">AI 三餐菜谱规划工具</view>
-    <view class="subtitle">智能搭配家常菜式</view>
+    <view class="user-card">
+      <image class="avatar-img" wx:if="{{userInfo.avatarUrl}}" src="{{userInfo.avatarUrl}}"></image>
+      <view class="avatar-placeholder" wx:else>🍳</view>
+      <view class="user-detail">
+        <text class="user-name" wx:if="{{userInfo.nickName}}">{{userInfo.nickName}}</text>
+        <text class="user-name guest" wx:else>未登录</text>
+        <text class="user-id" wx:if="{{openIdShort}}">ID: {{openIdShort}}</text>
+        <text class="user-id" wx:else>登录后查看更多功能</text>
+      </view>
+      <view class="user-actions">
+        <view class="login-btn" wx:if="{{!userInfo}}" bindtap="getUserProfile">登录</view>
+        <view class="logout-btn" wx:else bindtap="logout">退出</view>
+      </view>
+    </view>
+    <view class="app-title">AI 三餐菜谱规划工具</view>
+    <view class="app-subtitle">智能搭配家常菜式</view>
+  </view>
+
+  <!-- 设置 -->
+  <view class="card">
+    <view class="menu-item" bindtap="goSettings">
+      <text class="menu-text">⚙️ 设置</text>
+      <image class="arrow" src="/images/arrow.svg"></image>
+    </view>
   </view>
 
   <!-- 历史菜谱 -->
@@ -13,7 +34,10 @@
       <text class="section-title">📋 历史记录</text>
       <text class="action-btn" bindtap="clearHistory" wx:if="{{history.length > 0}}">清空</text>
     </view>
-    <view wx:if="{{history.length > 0}}">
+    <view wx:if="{{historyLoading}}">
+      <text class="loading-text">加载中…</text>
+    </view>
+    <view wx:elif="{{history.length > 0}}">
       <view
         class="history-item"
         wx:for="{{history}}"
@@ -36,7 +60,10 @@
       <text class="section-title">⭐ 我的收藏</text>
       <text class="action-btn" bindtap="clearFavorites" wx:if="{{favorites.length > 0}}">清空</text>
     </view>
-    <view wx:if="{{favorites.length > 0}}">
+    <view wx:if="{{favLoading}}">
+      <text class="loading-text">加载中…</text>
+    </view>
+    <view wx:elif="{{favorites.length > 0}}">
       <view
         class="fav-item"
         wx:for="{{favorites}}"

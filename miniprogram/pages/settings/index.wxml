@@ -1,0 +1,47 @@
+<!-- 设置页面 -->
+<view class="page {{theme === 'dark' ? 'dark-theme' : ''}}">
+  <!-- 主题切换 -->
+  <view class="card">
+    <view class="section-title">外观设置</view>
+    <view class="setting-item">
+      <text class="setting-label">深色模式</text>
+      <switch
+        class="setting-switch"
+        checked="{{theme === 'dark'}}"
+        bindchange="toggleTheme"
+        color="#FF8C42"
+      />
+    </view>
+  </view>
+
+  <!-- 清除缓存 -->
+  <view class="card">
+    <view class="section-title">存储管理</view>
+    <view class="setting-item" bindtap="clearCache">
+      <text class="setting-label">清除缓存</text>
+      <text class="setting-value">当前 {{cacheSize}} KB</text>
+      <image class="arrow" src="/images/arrow.svg"></image>
+    </view>
+    <view class="setting-item" bindtap="clearAllData">
+      <text class="setting-label">清除所有数据</text>
+      <text class="setting-value danger">重置</text>
+      <image class="arrow" src="/images/arrow.svg"></image>
+    </view>
+  </view>
+
+  <!-- 关于 -->
+  <view class="card">
+    <view class="section-title">关于</view>
+    <view class="about-item">
+      <text class="about-label">版本</text>
+      <text class="about-value">1.0.0</text>
+    </view>
+    <view class="about-item">
+      <text class="about-label">简介</text>
+      <text class="about-value">AI 三餐菜谱规划演示工具</text>
+    </view>
+  </view>
+
+  <!-- 免责声明 -->
+  <view class="disclaimer">本工具为课程演示项目，仅提供家常菜谱搭配参考，不提供任何医疗、营养、健康指导服务</view>
+</view>

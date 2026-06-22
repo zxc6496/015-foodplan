@@ -6,7 +6,8 @@
     "pages/shopping/index",
     "pages/recipe-detail/index",
     "pages/my-recipes/index",
-    "pages/my-recipes/add"
+    "pages/my-recipes/add",
+    "pages/settings/index"
   ],
   "window": {
     "backgroundColor": "#FFF8F0",
